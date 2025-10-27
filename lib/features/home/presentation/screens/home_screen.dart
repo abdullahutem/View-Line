@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:view_line/core/constants/app_colors.dart';
 import 'package:view_line/core/constants/app_strings.dart';
 import 'package:view_line/core/data/mock_data.dart';
+import 'package:view_line/core/localization/cubit/language_cubit.dart';
+import 'package:view_line/core/localization/cubit/language_state.dart';
+import 'package:view_line/core/localization/localized_helper.dart';
 import 'package:view_line/features/home/cubit/home_cubit.dart';
 import 'package:view_line/features/home/presentation/screens/main_service_details_screen.dart';
+import 'package:view_line/features/home/presentation/widgets/achievements_section.dart';
 import 'package:view_line/features/home/presentation/widgets/ad_carousel.dart';
+import 'package:view_line/features/home/presentation/widgets/customer_reviews_section.dart';
 import 'package:view_line/features/home/presentation/widgets/main_service_card.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -17,11 +23,34 @@ class HomeScreen extends StatelessWidget {
       create: (_) => HomeCubit()..loadAdvertisements(),
       child: Scaffold(
         appBar: AppBar(
+          actions: [
+            // Language Button with Bottom Sheet
+            Container(
+              margin: const EdgeInsets.only(left: 8),
+              decoration: BoxDecoration(
+                color: AppColors.primary,
+                shape: BoxShape.circle,
+              ),
+              child: BlocBuilder<LanguageCubit, LanguageState>(
+                builder: (context, state) {
+                  return IconButton(
+                    icon: const Icon(Icons.language, color: Colors.white),
+                    tooltip: context.isArabic ? 'اللغة' : 'Language',
+                    onPressed: () {
+                      _showLanguageBottomSheet(context);
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
           title: Row(
             children: [
               Icon(Icons.flight_takeoff, color: AppColors.primary),
               const SizedBox(width: 8),
-              const Text(AppStrings.appName),
+              Text(
+                context.isArabic ? AppStrings.appNameAr : AppStrings.appNameEn,
+              ),
             ],
           ),
           centerTitle: false,
@@ -53,7 +82,9 @@ class HomeScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(16.0),
                       child: TextField(
                         decoration: InputDecoration(
-                          hintText: AppStrings.searchHint,
+                          hintText: context.isArabic
+                              ? AppStrings.searchHintAr
+                              : AppStrings.searchHintEn,
                           prefixIcon: const Icon(Icons.search),
                           suffixIcon: IconButton(
                             icon: const Icon(Icons.tune),
@@ -75,24 +106,26 @@ class HomeScreen extends StatelessWidget {
                     const SizedBox(height: 32),
 
                     // OUR MAIN SERVICES SECTION - NEW
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16.0),
                       child: Text(
-                        'Our Main Services',
+                        context.isArabic ? 'خدماتنا' : 'Our Services',
                         style: TextStyle(
-                          fontSize: 24,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
                           color: AppColors.textPrimary,
                         ),
                       ),
                     ),
                     const SizedBox(height: 4),
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16.0),
                       child: Text(
-                        'Discover our comprehensive travel solutions',
+                        context.isArabic
+                            ? 'اكتشف حلول السفر الشاملة لدينا'
+                            : 'Discover our comprehensive travel solutions',
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 12,
                           color: AppColors.textSecondary,
                         ),
                       ),
@@ -134,110 +167,10 @@ class HomeScreen extends StatelessWidget {
 
                     const SizedBox(height: 32),
 
-                    // Popular Destinations Section (existing code)
-                    const Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Text(
-                        'Popular Destinations',
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.textPrimary,
-                        ),
-                      ),
-                    ),
-
-                    // Quick Categories (existing code)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: _buildCategoryCard(
-                              icon: Icons.beach_access,
-                              title: 'Beach',
-                              color: AppColors.primary,
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: _buildCategoryCard(
-                              icon: Icons.landscape,
-                              title: 'Mountain',
-                              color: AppColors.secondary,
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: _buildCategoryCard(
-                              icon: Icons.location_city,
-                              title: 'City',
-                              color: AppColors.success,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    const SizedBox(height: 24),
-
-                    // Special Offers Banner (existing code)
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Container(
-                        padding: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              AppColors.secondary,
-                              AppColors.secondary.withOpacity(0.7),
-                            ],
-                          ),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text(
-                                    'Special Offer!',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 8),
-                                  const Text(
-                                    'Get up to 30% off on selected packages',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 12),
-                                  ElevatedButton(
-                                    onPressed: () {},
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.white,
-                                      foregroundColor: AppColors.secondary,
-                                    ),
-                                    child: const Text('Explore Now'),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const Icon(
-                              Icons.card_giftcard,
-                              size: 60,
-                              color: Colors.white,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                    // ACHIEVEMENTS IN NUMBERS SECTION - NEW
+                    const AchievementsSection(),
+                    const SizedBox(height: 32),
+                    const CustomerReviewsSection(),
 
                     const SizedBox(height: 32),
                   ],
@@ -252,32 +185,94 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCategoryCard({
-    required IconData icon,
-    required String title,
-    required Color color,
-  }) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 20),
-      decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withOpacity(0.3)),
+  void _showLanguageBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      child: Column(
-        children: [
-          Icon(icon, size: 32, color: color),
-          const SizedBox(height: 8),
-          Text(
-            title,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: color,
-            ),
+      builder: (BuildContext bottomSheetContext) {
+        return BlocProvider.value(
+          value: context.read<LanguageCubit>(),
+          child: BlocBuilder<LanguageCubit, LanguageState>(
+            builder: (context, state) {
+              final languageCubit = context.read<LanguageCubit>();
+
+              return Container(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      width: 40,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      languageCubit.isArabic ? 'اختر اللغة' : 'Select Language',
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+
+                    // Arabic Option
+                    ListTile(
+                      leading: const Icon(Icons.language, color: Colors.green),
+                      title: const Text(
+                        'العربية',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      subtitle: const Text('Arabic'),
+                      trailing: languageCubit.isArabic
+                          ? const Icon(Icons.check_circle, color: Colors.green)
+                          : null,
+                      onTap: () {
+                        languageCubit.changeLanguage('ar');
+                        Navigator.pop(bottomSheetContext);
+                        Phoenix.rebirth(context);
+                      },
+                    ),
+
+                    const Divider(),
+
+                    // English Option
+                    ListTile(
+                      leading: const Icon(Icons.language, color: Colors.blue),
+                      title: const Text(
+                        'English',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      subtitle: const Text('الإنجليزية'),
+                      trailing: languageCubit.isEnglish
+                          ? const Icon(Icons.check_circle, color: Colors.blue)
+                          : null,
+                      onTap: () {
+                        languageCubit.changeLanguage('en');
+                        Navigator.pop(bottomSheetContext);
+                        Phoenix.rebirth(context);
+                      },
+                    ),
+
+                    const SizedBox(height: 20),
+                  ],
+                ),
+              );
+            },
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

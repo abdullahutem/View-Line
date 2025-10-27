@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:view_line/core/constants/app_colors.dart';
+import 'package:view_line/core/localization/localized_helper.dart';
 import 'package:view_line/features/home/models/advertisement.dart';
 
 class AdCarousel extends StatefulWidget {
@@ -74,7 +75,7 @@ class _AdCarouselState extends State<AdCarousel> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            ad.title,
+                            context.isArabic ? ad.titleAr : ad.titleEn,
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 24,
@@ -83,7 +84,9 @@ class _AdCarouselState extends State<AdCarousel> {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            ad.description,
+                            context.isArabic
+                                ? ad.descriptionAr
+                                : ad.descriptionEn,
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 14,

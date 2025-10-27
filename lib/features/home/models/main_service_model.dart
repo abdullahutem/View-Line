@@ -2,42 +2,62 @@ import 'package:flutter/material.dart';
 
 class MainService {
   final String id;
-  final String title;
-  final String subtitle;
+  final String titleEn;
+  final String titleAr;
+  final String subtitleEn;
+  final String subtitleAr;
   final String imageUrl;
-  final String description;
-  final String overview;
-  final List<String> requirements;
-  final String costInformation;
-  final List<ServicePackage> packages;
-  final String contactInstructions;
   final IconData icon;
+  final String descriptionEn;
+  final String descriptionAr;
+  final String overviewEn;
+  final String overviewAr;
+  final List<String> requirementsEn;
+  final List<String> requirementsAr;
+  final String costInformationEn;
+  final String costInformationAr;
+  final List<ServicePackage> packages;
+  final String contactInstructionsEn;
+  final String contactInstructionsAr;
 
-  const MainService({
+  MainService({
     required this.id,
-    required this.title,
-    required this.subtitle,
+    required this.titleEn,
+    required this.titleAr,
+    required this.subtitleEn,
+    required this.subtitleAr,
     required this.imageUrl,
-    required this.description,
-    required this.overview,
-    required this.requirements,
-    required this.costInformation,
-    required this.packages,
-    required this.contactInstructions,
     required this.icon,
+    required this.descriptionEn,
+    required this.descriptionAr,
+    required this.overviewEn,
+    required this.overviewAr,
+    required this.requirementsEn,
+    required this.requirementsAr,
+    required this.costInformationEn,
+    required this.costInformationAr,
+    required this.packages,
+    required this.contactInstructionsEn,
+    required this.contactInstructionsAr,
   });
 }
 
 class ServicePackage {
-  final String name;
-  final String description;
+  final String nameEn;
+  final String nameAr;
+  final String descriptionEn;
+  final String descriptionAr;
   final String price;
-  final List<String> features;
+  final List<String> featuresEn;
+  final List<String> featuresAr;
 
   const ServicePackage({
-    required this.name,
-    required this.description,
+    required this.nameEn,
+    required this.nameAr,
+    required this.descriptionEn,
+    required this.descriptionAr,
     required this.price,
-    required this.features,
+    required this.featuresEn,
+    required this.featuresAr,
   });
 }

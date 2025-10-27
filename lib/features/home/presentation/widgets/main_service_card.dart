@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:view_line/core/constants/app_colors.dart';
+import 'package:view_line/core/localization/localized_helper.dart';
 import 'package:view_line/features/home/models/main_service_model.dart';
 
 class MainServiceCard extends StatelessWidget {
@@ -95,7 +96,7 @@ class MainServiceCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    service.title,
+                    context.isArabic ? service.titleAr : service.titleEn,
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -106,7 +107,7 @@ class MainServiceCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    service.subtitle,
+                    context.isArabic ? service.subtitleAr : service.subtitleEn,
                     style: const TextStyle(
                       fontSize: 13,
                       color: AppColors.textSecondary,
@@ -120,7 +121,7 @@ class MainServiceCard extends StatelessWidget {
                     children: [
                       const Spacer(),
                       Text(
-                        'Learn More',
+                        context.isArabic ? "إعرف أكثر" : 'Learn More',
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,

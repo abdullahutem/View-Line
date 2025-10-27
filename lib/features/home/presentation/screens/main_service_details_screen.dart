@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:view_line/core/constants/app_colors.dart';
+import 'package:view_line/core/localization/localized_helper.dart';
 import 'package:view_line/features/home/models/main_service_model.dart';
 
 class MainServiceDetailsScreen extends StatelessWidget {
@@ -27,7 +28,7 @@ class MainServiceDetailsScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
-                  service.title,
+                  context.isArabic ? service.titleAr : service.titleEn,
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -101,18 +102,22 @@ class MainServiceDetailsScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  service.title,
+                                  context.isArabic
+                                      ? service.titleAr
+                                      : service.titleEn,
                                   style: const TextStyle(
-                                    fontSize: 24,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                     color: AppColors.textPrimary,
                                   ),
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
-                                  service.subtitle,
+                                  context.isArabic
+                                      ? service.subtitleAr
+                                      : service.subtitleEn,
                                   style: const TextStyle(
-                                    fontSize: 14,
+                                    fontSize: 12,
                                     color: AppColors.textSecondary,
                                   ),
                                 ),
@@ -123,9 +128,11 @@ class MainServiceDetailsScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        service.description,
+                        context.isArabic
+                            ? service.descriptionAr
+                            : service.descriptionEn,
                         style: const TextStyle(
-                          fontSize: 15,
+                          fontSize: 12,
                           color: AppColors.textSecondary,
                           height: 1.6,
                         ),
@@ -138,12 +145,12 @@ class MainServiceDetailsScreen extends StatelessWidget {
 
                 // Overview Section
                 _buildSection(
-                  title: 'Overview',
+                  title: context.isArabic ? 'نظرة عامة' : 'Overview',
                   icon: Icons.info_outline,
                   child: Text(
-                    service.overview,
+                    context.isArabic ? service.overviewAr : service.overviewEn,
                     style: const TextStyle(
-                      fontSize: 15,
+                      fontSize: 12,
                       color: AppColors.textSecondary,
                       height: 1.7,
                     ),
@@ -153,15 +160,17 @@ class MainServiceDetailsScreen extends StatelessWidget {
                 const SizedBox(height: 12),
 
                 // Available Packages Section
-                _buildPackagesSection(service.packages),
+                _buildPackagesSection(service.packages, context),
 
                 const SizedBox(height: 12),
 
                 // Requirements Section
                 _buildListSection(
-                  title: 'Requirements',
+                  title: context.isArabic ? 'المتطلبات' : 'Requirements',
                   icon: Icons.checklist,
-                  items: service.requirements,
+                  items: context.isArabic
+                      ? service.requirementsAr
+                      : service.requirementsEn,
                   iconColor: AppColors.secondary,
                 ),
 
@@ -169,7 +178,9 @@ class MainServiceDetailsScreen extends StatelessWidget {
 
                 // Cost Information Section
                 _buildSection(
-                  title: 'Cost Information',
+                  title: context.isArabic
+                      ? 'معلومات التكلفة'
+                      : 'Cost Information',
                   icon: Icons.payments_outlined,
                   child: Container(
                     padding: const EdgeInsets.all(16),
@@ -181,9 +192,11 @@ class MainServiceDetailsScreen extends StatelessWidget {
                       ),
                     ),
                     child: Text(
-                      service.costInformation,
+                      context.isArabic
+                          ? service.costInformationAr
+                          : service.costInformationEn,
                       style: const TextStyle(
-                        fontSize: 15,
+                        fontSize: 12,
                         color: AppColors.textSecondary,
                         height: 1.7,
                       ),
@@ -194,7 +207,12 @@ class MainServiceDetailsScreen extends StatelessWidget {
                 const SizedBox(height: 12),
 
                 // Contact & Booking Section
-                _buildContactSection(service.contactInstructions),
+                _buildContactSection(
+                  context.isArabic
+                      ? service.contactInstructionsAr
+                      : service.contactInstructionsEn,
+                  context,
+                ),
 
                 const SizedBox(height: 100),
               ],
@@ -209,10 +227,10 @@ class MainServiceDetailsScreen extends StatelessWidget {
           _showBookingDialog(context);
         },
         backgroundColor: AppColors.primary,
-        icon: const Icon(Icons.phone),
-        label: const Text(
-          'Contact Us',
-          style: TextStyle(fontWeight: FontWeight.w600),
+        icon: const Icon(Icons.phone, color: Colors.white),
+        label: Text(
+          context.isArabic ? 'اتصل بنا' : 'Contact Us',
+          style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white),
         ),
       ),
 
@@ -237,12 +255,18 @@ class MainServiceDetailsScreen extends StatelessWidget {
                   onPressed: () {
                     _showInfoDialog(
                       context,
-                      'More Information',
-                      'For detailed information about ${service.title}, please contact our customer service team. We\'re here to help you 24/7!',
+                      context.isArabic
+                          ? 'مزيد من المعلومات'
+                          : 'More Information',
+                      context.isArabic
+                          ? "للحصول على معلومات مفصلة حول خدمة ${service.titleAr}، يرجى الاتصال بفريق خدمة العملاء لدينا. نحن هنا لمساعدتك على مدار الساعة طوال أيام الأسبوع!"
+                          : 'For detailed information about ${service.titleEn}, please contact our customer service team. We\'re here to help you 24/7!',
                     );
                   },
                   icon: const Icon(Icons.info_outline),
-                  label: const Text('More Info'),
+                  label: Text(
+                    context.isArabic ? 'مزيد من المعلومات' : 'More Info',
+                  ),
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     side: const BorderSide(color: AppColors.primary),
@@ -256,7 +280,7 @@ class MainServiceDetailsScreen extends StatelessWidget {
                     _showBookingDialog(context);
                   },
                   icon: const Icon(Icons.book_online),
-                  label: const Text('Book Now'),
+                  label: Text(context.isArabic ? 'احجز الآن' : 'Book Now'),
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
@@ -295,7 +319,7 @@ class MainServiceDetailsScreen extends StatelessWidget {
               Text(
                 title,
                 style: const TextStyle(
-                  fontSize: 20,
+                  fontSize: 16,
                   fontWeight: FontWeight.bold,
                   color: AppColors.textPrimary,
                 ),
@@ -336,7 +360,7 @@ class MainServiceDetailsScreen extends StatelessWidget {
               Text(
                 title,
                 style: const TextStyle(
-                  fontSize: 20,
+                  fontSize: 16,
                   fontWeight: FontWeight.bold,
                   color: AppColors.textPrimary,
                 ),
@@ -364,7 +388,7 @@ class MainServiceDetailsScreen extends StatelessWidget {
                     child: Text(
                       item,
                       style: const TextStyle(
-                        fontSize: 15,
+                        fontSize: 12,
                         color: AppColors.textSecondary,
                         height: 1.5,
                       ),
@@ -379,7 +403,10 @@ class MainServiceDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPackagesSection(List<ServicePackage> packages) {
+  Widget _buildPackagesSection(
+    List<ServicePackage> packages,
+    BuildContext context,
+  ) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(20),
@@ -402,10 +429,10 @@ class MainServiceDetailsScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 12),
-              const Text(
-                'Available Packages',
+              Text(
+                context.isArabic ? 'الباقات المتاحة' : 'Available Packages',
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 16,
                   fontWeight: FontWeight.bold,
                   color: AppColors.textPrimary,
                 ),
@@ -413,13 +440,13 @@ class MainServiceDetailsScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          ...packages.map((package) => _buildPackageCard(package)),
+          ...packages.map((package) => _buildPackageCard(package, context)),
         ],
       ),
     );
   }
 
-  Widget _buildPackageCard(ServicePackage package) {
+  Widget _buildPackageCard(ServicePackage package, BuildContext context) {
     final colors = [AppColors.primary, AppColors.secondary, AppColors.success];
     // final color = colors[packages.indexOf(package) % colors.length];
     final color = AppColors.primary;
@@ -446,18 +473,20 @@ class MainServiceDetailsScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      package.name,
+                      context.isArabic ? package.nameAr : package.nameEn,
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: color,
                       ),
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      package.description,
+                      context.isArabic
+                          ? package.descriptionAr
+                          : package.descriptionEn,
                       style: const TextStyle(
-                        fontSize: 13,
+                        fontSize: 12,
                         color: AppColors.textSecondary,
                       ),
                     ),
@@ -474,7 +503,9 @@ class MainServiceDetailsScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
-                  package.price,
+                  context.isArabic
+                      ? "إبتدا من ${package.price}"
+                      : "From ${package.price}",
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -487,33 +518,59 @@ class MainServiceDetailsScreen extends StatelessWidget {
           const SizedBox(height: 12),
           const Divider(),
           const SizedBox(height: 8),
-          ...package.features.map(
-            (feature) => Padding(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Icon(Icons.check_circle, size: 18, color: color),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      feature,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: AppColors.textSecondary,
+          ...context.isArabic
+              ? package.featuresAr
+                    .map(
+                      (feature) => Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(Icons.check_circle, size: 18, color: color),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                feature,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: AppColors.textSecondary,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+                    )
+                    .toList()
+              : package.featuresEn
+                    .map(
+                      (feature) => Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(Icons.check_circle, size: 18, color: color),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                feature,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: AppColors.textSecondary,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                    .toList(),
         ],
       ),
     );
   }
 
-  Widget _buildContactSection(String instructions) {
+  Widget _buildContactSection(String instructions, BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.all(20),
@@ -533,14 +590,17 @@ class MainServiceDetailsScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
+            // Remove const here
             children: [
-              Icon(Icons.support_agent, color: Colors.white, size: 28),
-              SizedBox(width: 12),
+              const Icon(Icons.support_agent, color: Colors.white, size: 28),
+              const SizedBox(width: 12),
               Text(
-                'Contact & Booking',
-                style: TextStyle(
-                  fontSize: 20,
+                context.isArabic
+                    ? "اتصل واحجز"
+                    : 'Contact & Booking', // Add Arabic text
+                style: const TextStyle(
+                  fontSize: 16,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
@@ -551,9 +611,9 @@ class MainServiceDetailsScreen extends StatelessWidget {
           Text(
             instructions,
             style: const TextStyle(
-              fontSize: 15,
+              fontSize: 12,
               color: Colors.white,
-              height: 1.6,
+              height: 2,
             ),
           ),
           const SizedBox(height: 20),
@@ -562,7 +622,9 @@ class MainServiceDetailsScreen extends StatelessWidget {
               Expanded(
                 child: _buildContactIconButton(
                   icon: Icons.phone,
-                  label: 'Call',
+                  label: context.isArabic
+                      ? 'اتصال'
+                      : 'Call', // Localize button labels too
                   onTap: () {},
                 ),
               ),
@@ -570,7 +632,7 @@ class MainServiceDetailsScreen extends StatelessWidget {
               Expanded(
                 child: _buildContactIconButton(
                   icon: Icons.email,
-                  label: 'Email',
+                  label: context.isArabic ? 'بريد' : 'Email',
                   onTap: () {},
                 ),
               ),
@@ -578,7 +640,7 @@ class MainServiceDetailsScreen extends StatelessWidget {
               Expanded(
                 child: _buildContactIconButton(
                   icon: Icons.chat,
-                  label: 'Chat',
+                  label: context.isArabic ? 'دردشة' : 'Chat',
                   onTap: () {},
                 ),
               ),
@@ -636,8 +698,11 @@ class MainServiceDetailsScreen extends StatelessWidget {
               child: Icon(service.icon, color: AppColors.primary),
             ),
             const SizedBox(width: 12),
-            const Expanded(
-              child: Text('Start Your Booking', style: TextStyle(fontSize: 18)),
+            Expanded(
+              child: Text(
+                context.isArabic ? 'ابدأ حجزك' : 'Start Your Booking',
+                style: TextStyle(fontSize: 16),
+              ),
             ),
           ],
         ),
@@ -646,12 +711,16 @@ class MainServiceDetailsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Ready to book ${service.title}?',
+              context.isArabic
+                  ? "هل أنت مستعد لحجز ${service.titleAr}؟"
+                  : 'Ready to book ${service.titleEn}?',
               style: const TextStyle(fontSize: 15),
             ),
             const SizedBox(height: 16),
-            const Text(
-              'Our team will contact you shortly to complete your booking and answer any questions you may have.',
+            Text(
+              context.isArabic
+                  ? "سيتواصل معكم فريقنا قريباً لإتمام حجزكم والإجابة على أي أسئلة قد تكون لديكم."
+                  : 'Our team will contact you shortly to complete your booking and answer any questions you may have.',
               style: TextStyle(
                 fontSize: 14,
                 color: AppColors.textSecondary,
@@ -665,15 +734,17 @@ class MainServiceDetailsScreen extends StatelessWidget {
                 color: AppColors.primary.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: const Row(
+              child: Row(
                 children: [
                   Icon(Icons.support_agent, color: AppColors.primary),
                   SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      '24/7 Customer Support Available',
+                      context.isArabic
+                          ? "خدمة دعم العملاء متاحة على مدار الساعة طوال أيام الأسبوع."
+                          : '24/7 Customer Support Available',
                       style: TextStyle(
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w400,
                         color: AppColors.primary,
                       ),
                     ),
@@ -686,7 +757,7 @@ class MainServiceDetailsScreen extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(context.isArabic ? "إلغاء" : 'Cancel'),
           ),
           ElevatedButton.icon(
             onPressed: () {
@@ -699,7 +770,9 @@ class MainServiceDetailsScreen extends StatelessWidget {
                       const SizedBox(width: 12),
                       Expanded(
                         child: Text(
-                          'Booking request received! We\'ll contact you soon.',
+                          context.isArabic
+                              ? "تم استلام طلب الحجز! سنتواصل معك قريباً."
+                              : 'Booking request received! We\'ll contact you soon.',
                         ),
                       ),
                     ],
@@ -713,7 +786,7 @@ class MainServiceDetailsScreen extends StatelessWidget {
               );
             },
             icon: const Icon(Icons.phone),
-            label: const Text('Request Call'),
+            label: Text(context.isArabic ? 'طلب مكالمة' : 'Request Call'),
           ),
         ],
       ),
@@ -743,7 +816,7 @@ class MainServiceDetailsScreen extends StatelessWidget {
         actions: [
           ElevatedButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Got it'),
+            child: Text(context.isArabic ? 'أحصل عليها' : 'Got it'),
           ),
         ],
       ),

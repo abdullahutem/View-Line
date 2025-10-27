@@ -2,45 +2,35 @@ import 'package:view_line/features/about_us/models/employee_model.dart';
 import 'package:view_line/features/about_us/models/partner_model.dart';
 
 class AboutUsModel {
-  final String appName;
-  final String subtitle;
-  final String description;
-  final String vision;
-  final String message;
-  final List<String> values;
+  final String appNameEn;
+  final String appNameAr;
+  final String subtitleEn;
+  final String subtitleAr;
+  final String descriptionEn;
+  final String descriptionAr;
+  final String visionEn;
+  final String visionAr;
+  final String messageEn;
+  final String messageAr;
+  final List<String> valuesEn;
+  final List<String> valuesAr;
   final List<PartnerModel> partners;
   final List<EmployeeModel> employees;
 
   AboutUsModel({
-    required this.appName,
-    required this.subtitle,
-    required this.description,
-    required this.vision,
-    required this.message,
-    required this.values,
+    required this.appNameEn,
+    required this.appNameAr,
+    required this.subtitleEn,
+    required this.subtitleAr,
+    required this.descriptionEn,
+    required this.descriptionAr,
+    required this.visionEn,
+    required this.visionAr,
+    required this.messageEn,
+    required this.messageAr,
+    required this.valuesEn,
+    required this.valuesAr,
     required this.partners,
     required this.employees,
   });
 }
-
-// class AboutUsModel {
-//   final String appName;
-//   final String subtitle;
-//   final String description;
-//   final String vision;
-//   final String message;
-//   final List<String> values;
-//   final List<Partner> partners;
-//   final List<TeamMember> team;
-
-//   AboutUsModel({
-//     required this.appName,
-//     required this.subtitle,
-//     required this.description,
-//     required this.vision,
-//     required this.message,
-//     required this.values,
-//     required this.partners,
-//     required this.team,
-//   });
-// }

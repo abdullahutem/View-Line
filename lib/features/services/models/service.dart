@@ -1,41 +1,41 @@
 class Service {
   final String id;
-  final String title;
-  final String subtitle;
+  final String titleEn;
+  final String titleAr;
+  final String subtitleEn;
+  final String subtitleAr;
   final String imageUrl;
-  final String location;
+  final String locationEn;
+  final String locationAr;
   final String date;
   final double cost;
-  final String description;
-  final List<String> terms;
-  final List<String> requirements;
-  final List<String> tripPlan;
+  final String descriptionEn;
+  final String descriptionAr;
+  final List<String> termsEn;
+  final List<String> termsAr;
+  final List<String> requirementsEn;
+  final List<String> requirementsAr;
+  final List<String> tripPlanEn;
+  final List<String> tripPlanAr;
 
-  const Service({
+  Service({
     required this.id,
-    required this.title,
-    required this.subtitle,
+    required this.titleEn,
+    required this.titleAr,
+    required this.subtitleEn,
+    required this.subtitleAr,
     required this.imageUrl,
-    required this.location,
+    required this.locationEn,
+    required this.locationAr,
     required this.date,
     required this.cost,
-    required this.description,
-    required this.terms,
-    required this.requirements,
-    required this.tripPlan,
+    required this.descriptionEn,
+    required this.descriptionAr,
+    required this.termsEn,
+    required this.termsAr,
+    required this.requirementsEn,
+    required this.requirementsAr,
+    required this.tripPlanEn,
+    required this.tripPlanAr,
   });
-
-  List<Object?> get props => [
-    id,
-    title,
-    subtitle,
-    imageUrl,
-    location,
-    date,
-    cost,
-    description,
-    terms,
-    requirements,
-    tripPlan,
-  ];
 }

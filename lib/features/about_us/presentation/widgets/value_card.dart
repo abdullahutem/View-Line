@@ -32,14 +32,14 @@ class ValueCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-            child: Icon(_getIconForValue(index), color: Colors.white, size: 20),
+            child: Icon(_getIconForValue(index), color: Colors.white, size: 14),
           ),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
               value,
               style: TextStyle(
-                fontSize: 15,
+                fontSize: 12,
                 fontWeight: FontWeight.w600,
                 color: color,
               ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:view_line/core/constants/app_colors.dart';
 import 'package:view_line/core/constants/app_strings.dart';
+import 'package:view_line/core/localization/localized_helper.dart';
 import 'package:view_line/features/services/models/service.dart';
 
 class ServiceDetailsScreen extends StatelessWidget {
@@ -67,7 +68,7 @@ class ServiceDetailsScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          service.title,
+                          context.isArabic ? service.titleAr : service.titleEn,
                           style: const TextStyle(
                             fontSize: 26,
                             fontWeight: FontWeight.bold,
@@ -76,7 +77,9 @@ class ServiceDetailsScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          service.subtitle,
+                          context.isArabic
+                              ? service.subtitleAr
+                              : service.subtitleEn,
                           style: const TextStyle(
                             fontSize: 16,
                             color: AppColors.textSecondary,
@@ -87,7 +90,9 @@ class ServiceDetailsScreen extends StatelessWidget {
                           children: [
                             _buildInfoChip(
                               icon: Icons.location_on,
-                              label: service.location,
+                              label: context.isArabic
+                                  ? service.locationAr
+                                  : service.locationEn,
                               color: AppColors.primary,
                             ),
                             const SizedBox(width: 12),
@@ -136,7 +141,9 @@ class ServiceDetailsScreen extends StatelessWidget {
                   // Description
                   _buildSection(
                     title: AppStrings.description,
-                    content: service.description,
+                    content: context.isArabic
+                        ? service.descriptionAr
+                        : service.descriptionEn,
                   ),
 
                   const SizedBox(height: 12),
@@ -144,7 +151,9 @@ class ServiceDetailsScreen extends StatelessWidget {
                   // Trip Plan
                   _buildListSection(
                     title: AppStrings.tripPlan,
-                    items: service.tripPlan,
+                    items: context.isArabic
+                        ? service.tripPlanAr
+                        : service.tripPlanEn,
                     icon: Icons.map_outlined,
                   ),
 
@@ -153,7 +162,9 @@ class ServiceDetailsScreen extends StatelessWidget {
                   // Requirements
                   _buildListSection(
                     title: AppStrings.requirements,
-                    items: service.requirements,
+                    items: context.isArabic
+                        ? service.requirementsAr
+                        : service.requirementsEn,
                     icon: Icons.check_circle_outline,
                   ),
 
@@ -162,7 +173,7 @@ class ServiceDetailsScreen extends StatelessWidget {
                   // Terms & Conditions
                   _buildListSection(
                     title: AppStrings.terms,
-                    items: service.terms,
+                    items: context.isArabic ? service.termsAr : service.termsEn,
                     icon: Icons.info_outline,
                   ),
 
@@ -329,7 +340,7 @@ class ServiceDetailsScreen extends StatelessWidget {
           ],
         ),
         content: Text(
-          'Are you sure you want to book "${service.title}" for \$${service.cost.toStringAsFixed(2)}?',
+          'Are you sure you want to book "${context.isArabic ? service.titleAr : service.titleEn}" for \$${service.cost.toStringAsFixed(2)}?',
           style: const TextStyle(fontSize: 15),
         ),
         actions: [

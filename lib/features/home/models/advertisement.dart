@@ -1,15 +1,17 @@
 class Advertisement {
   final String id;
-  final String title;
-  final String description;
+  final String titleEn;
+  final String titleAr;
+  final String descriptionEn;
+  final String descriptionAr;
   final String imageUrl;
 
-  const Advertisement({
+  Advertisement({
     required this.id,
-    required this.title,
-    required this.description,
+    required this.titleEn,
+    required this.titleAr,
+    required this.descriptionEn,
+    required this.descriptionAr,
     required this.imageUrl,
   });
-
-  List<Object?> get props => [id, title, description, imageUrl];
 }

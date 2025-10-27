@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:view_line/core/constants/app_colors.dart';
+import 'package:view_line/core/localization/localized_helper.dart';
 import 'package:view_line/features/about_us/models/employee_model.dart';
 
 class EmployeeSlider extends StatelessWidget {
@@ -64,7 +65,7 @@ class EmployeeSlider extends StatelessWidget {
                   child: Column(
                     children: [
                       Text(
-                        employee.name,
+                        context.isArabic ? employee.nameAr : employee.nameEn,
                         style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -76,7 +77,9 @@ class EmployeeSlider extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        employee.position,
+                        context.isArabic
+                            ? employee.positionAr
+                            : employee.positionEn,
                         style: const TextStyle(
                           fontSize: 12,
                           color: AppColors.textSecondary,

@@ -1,11 +1,13 @@
 class PartnerModel {
   final String id;
-  final String name;
+  final String nameEn;
+  final String nameAr;
   final String logoUrl;
 
   const PartnerModel({
     required this.id,
-    required this.name,
+    required this.nameEn,
+    required this.nameAr,
     required this.logoUrl,
   });
 }

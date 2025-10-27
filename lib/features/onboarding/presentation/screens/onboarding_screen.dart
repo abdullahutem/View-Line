@@ -19,28 +19,26 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   final List<Map<String, dynamic>> _pages = [
     {
-      'title': 'Welcome to View Line',
+      'title': 'مرحباً بك في ڨيو لاين',
       'description':
-          'Your journey to amazing destinations starts here. Discover, explore, and create unforgettable memories.',
+          'رحلتك إلى الوجهات المذهلة تبدأ من هنا. اكتشف، استكشف، واصنع ذكريات لا تُنسى.',
       'icon': Icons.flight_takeoff,
       'color': AppColors.primary,
     },
     {
-      'title': 'Explore Services',
+      'title': 'استكشف الخدمات',
       'description':
-          'Browse through our curated travel packages and find the perfect adventure for you.',
+          'تصفح عبر باقات السفر المختارة بعناية وابحث عن المغامرة المثالية لك.',
       'icon': Icons.explore,
       'color': AppColors.secondary,
     },
     {
-      'title': 'Easy Booking',
-      'description':
-          'Simple and secure booking process. Your dream vacation is just a few taps away!',
+      'title': 'حجز سهل',
+      'description': 'عملية حجز بسيطة وآمنة. إجازتك الحلم على بعد نقرات قليلة!',
       'icon': Icons.check_circle,
       'color': AppColors.success,
     },
   ];
-
   void _completeOnboarding() {
     context.read<OnboardingCubit>().completeOnboarding();
     Navigator.of(

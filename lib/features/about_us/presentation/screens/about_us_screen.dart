@@ -1,375 +1,12 @@
-// import 'package:carousel_slider/carousel_slider.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_svg/flutter_svg.dart';
-// import 'package:view_line/core/constants/app_strings.dart';
-// import 'package:view_line/core/data/mock_data.dart';
-// import 'package:view_line/features/about_us/models/about_us_model.dart';
-
-// class AboutUsScreen extends StatelessWidget {
-//   const AboutUsScreen({super.key});
-
-//   static const Color primaryColor = Color(0xFFfe910b);
-//   static const Color secondaryColor = Color(0xFF2b388f);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final aboutData = MockData.getAboutUsData();
-//     final originalTheme = Theme.of(context);
-//     final enhancedTheme = originalTheme.copyWith(
-//       colorScheme: originalTheme.colorScheme.copyWith(
-//         primary: primaryColor,
-//         secondary: secondaryColor,
-//       ),
-//     );
-
-//     return Scaffold(
-//       appBar: AppBar(title: const Text(AppStrings.aboutUs), centerTitle: true),
-//       body: SingleChildScrollView(
-//         padding: const EdgeInsets.all(16.0),
-//         child: Column(
-//           children: [
-//             // Logo
-//             Center(
-//               child: CircleAvatar(
-//                 radius: 55,
-//                 backgroundColor: secondaryColor.withOpacity(0.1),
-//                 child: ClipOval(
-//                   child: Image.asset(
-//                     'assets/images/logo.jpeg',
-//                     height: 100,
-//                     width: 100,
-//                     fit: BoxFit.cover,
-//                   ),
-//                 ),
-//               ),
-//             ),
-//             const SizedBox(height: 16),
-
-//             // App Name
-//             Text(
-//               aboutData.appName,
-//               style: enhancedTheme.textTheme.headlineSmall?.copyWith(
-//                 fontWeight: FontWeight.bold,
-//                 color: secondaryColor,
-//               ),
-//             ),
-//             const SizedBox(height: 4),
-//             Text(
-//               aboutData.subtitle,
-//               textAlign: TextAlign.center,
-//               style: enhancedTheme.textTheme.bodyMedium?.copyWith(
-//                 color: Colors.grey[700],
-//               ),
-//             ),
-//             const SizedBox(height: 24),
-
-//             // Content Sections
-//             _buildSection(
-//               icon: Icons.info_outline,
-//               title: 'About View Line',
-//               content: aboutData.description,
-//               theme: enhancedTheme,
-//             ),
-//             _buildSection(
-//               icon: Icons.visibility_outlined,
-//               title: 'Our Vision',
-//               content: aboutData.vision,
-//               theme: enhancedTheme,
-//             ),
-//             _buildSection(
-//               icon: Icons.message_outlined,
-//               title: 'Our Message',
-//               content: aboutData.message,
-//               theme: enhancedTheme,
-//             ),
-//             _buildValuesSection(aboutData.values, enhancedTheme),
-//             _buildPartnersSection(aboutData.partners, enhancedTheme),
-//             _buildTeamSection(aboutData.team, enhancedTheme),
-
-//             const SizedBox(height: 30),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-
-//   Widget _buildSection({
-//     required IconData icon,
-//     required String title,
-//     required String content,
-//     required ThemeData theme,
-//   }) {
-//     return Card(
-//       margin: const EdgeInsets.symmetric(vertical: 10),
-//       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-//       child: Padding(
-//         padding: const EdgeInsets.all(16),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Row(
-//               children: [
-//                 Icon(icon, color: theme.colorScheme.primary),
-//                 const SizedBox(width: 8),
-//                 Text(
-//                   title,
-
-//                   style: TextStyle(
-//                     color: primaryColor,
-//                     fontWeight: FontWeight.w500,
-//                     fontSize: 16,
-//                   ),
-//                 ),
-//               ],
-//             ),
-//             const SizedBox(height: 8),
-//             Text(
-//               content,
-//               textAlign: TextAlign.justify,
-//               style: TextStyle(
-//                 // color: primaryColor,
-//                 fontWeight: FontWeight.w400,
-//                 fontSize: 12,
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-
-//   Widget _buildValuesSection(List<String> values, ThemeData theme) {
-//     return Card(
-//       margin: const EdgeInsets.symmetric(vertical: 10),
-//       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-//       child: Padding(
-//         padding: const EdgeInsets.all(16),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Row(
-//               children: [
-//                 Icon(Icons.star_rate_rounded, color: theme.colorScheme.primary),
-//                 const SizedBox(width: 8),
-//                 Text(
-//                   'Our Values',
-//                   style: TextStyle(
-//                     color: primaryColor,
-//                     fontWeight: FontWeight.w500,
-//                     fontSize: 16,
-//                   ),
-//                 ),
-//               ],
-//             ),
-//             const SizedBox(height: 12),
-//             ...values.map(
-//               (value) => Padding(
-//                 padding: const EdgeInsets.symmetric(vertical: 6),
-//                 child: Row(
-//                   children: [
-//                     Icon(
-//                       Icons.check_circle_rounded,
-//                       color: theme.colorScheme.secondary,
-//                       size: 22,
-//                     ),
-//                     const SizedBox(width: 10),
-//                     Expanded(
-//                       child: Text(
-//                         value,
-//                         style: TextStyle(
-//                           fontWeight: FontWeight.w400,
-//                           fontSize: 14,
-//                         ),
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-
-//   Widget _buildPartnersSection(List<Partner> partners, ThemeData theme) {
-//     return Card(
-//       margin: const EdgeInsets.symmetric(vertical: 10),
-//       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-//       child: Padding(
-//         padding: const EdgeInsets.all(16),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Row(
-//               children: [
-//                 Icon(
-//                   Icons.handshake_outlined,
-//                   color: theme.colorScheme.primary,
-//                 ),
-//                 const SizedBox(width: 8),
-//                 Text(
-//                   'Our Partners',
-//                   style: TextStyle(
-//                     color: primaryColor,
-//                     fontWeight: FontWeight.w500,
-//                     fontSize: 16,
-//                   ),
-//                 ),
-//               ],
-//             ),
-//             const SizedBox(height: 16),
-//             if (partners.isEmpty)
-//               const Center(child: Text('No partners to display.'))
-//             else
-//               CarouselSlider(
-//                 options: CarouselOptions(
-//                   height: 160,
-//                   autoPlay: true,
-//                   enlargeCenterPage: true,
-//                   enableInfiniteScroll: partners.length > 1,
-//                   viewportFraction: 0.8,
-//                   autoPlayInterval: const Duration(seconds: 3),
-//                   autoPlayAnimationDuration: const Duration(milliseconds: 800),
-//                 ),
-//                 items: partners.map((partner) {
-//                   return Builder(
-//                     builder: (context) {
-//                       return Container(
-//                         margin: const EdgeInsets.symmetric(horizontal: 6),
-//                         decoration: BoxDecoration(
-//                           color: Colors.white,
-//                           borderRadius: BorderRadius.circular(16),
-//                         ),
-//                         child: Column(
-//                           mainAxisAlignment: MainAxisAlignment.center,
-//                           children: [
-//                             ClipRRect(
-//                               borderRadius: BorderRadius.circular(12),
-//                               child: SvgPicture.asset(
-//                                 partner.imageUrl,
-//                                 height: 90,
-//                                 width: 90,
-//                                 fit: BoxFit.contain,
-//                                 placeholderBuilder: (context) => Container(
-//                                   height: 90,
-//                                   width: 90,
-//                                   color: theme.colorScheme.surfaceContainer,
-//                                   child: const Icon(Icons.image_not_supported),
-//                                 ),
-//                               ),
-//                             ),
-//                             const SizedBox(height: 8),
-//                             Text(
-//                               partner.name,
-//                               style: TextStyle(
-//                                 color: primaryColor,
-//                                 fontWeight: FontWeight.w500,
-//                                 fontSize: 16,
-//                               ),
-//                             ),
-//                           ],
-//                         ),
-//                       );
-//                     },
-//                   );
-//                 }).toList(),
-//               ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-
-//   Widget _buildTeamSection(List<TeamMember> team, ThemeData theme) {
-//     return Card(
-//       margin: const EdgeInsets.symmetric(vertical: 10),
-//       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-//       child: Padding(
-//         padding: const EdgeInsets.all(16),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Row(
-//               children: [
-//                 Icon(Icons.group_outlined, color: theme.colorScheme.primary),
-//                 const SizedBox(width: 8),
-//                 Text(
-//                   'Our Team',
-//                   style: TextStyle(
-//                     color: primaryColor,
-//                     fontWeight: FontWeight.w500,
-//                     fontSize: 16,
-//                   ),
-//                 ),
-//               ],
-//             ),
-//             const SizedBox(height: 16),
-//             if (team.isEmpty)
-//               const Center(child: Text('No team to display.'))
-//             else
-//               CarouselSlider(
-//                 options: CarouselOptions(
-//                   height: 230,
-//                   autoPlay: true,
-//                   enlargeCenterPage: true,
-//                   viewportFraction: 0.55,
-//                   autoPlayInterval: const Duration(seconds: 3),
-//                 ),
-//                 items: team.map((member) {
-//                   return Builder(
-//                     builder: (context) {
-//                       return Container(
-//                         decoration: BoxDecoration(
-//                           borderRadius: BorderRadius.circular(16),
-//                         ),
-//                         child: Column(
-//                           mainAxisAlignment: MainAxisAlignment.center,
-//                           children: [
-//                             ClipRRect(
-//                               borderRadius: BorderRadius.circular(50),
-//                               child: Image.asset(
-//                                 member.imageUrl,
-//                                 height: 100,
-//                                 width: 100,
-//                                 fit: BoxFit.cover,
-//                               ),
-//                             ),
-//                             const SizedBox(height: 8),
-//                             Text(
-//                               member.name,
-//                               style: TextStyle(
-//                                 color: secondaryColor,
-//                                 fontWeight: FontWeight.w400,
-//                                 fontSize: 12,
-//                               ),
-//                             ),
-//                             Text(
-//                               member.position,
-//                               style: TextStyle(
-//                                 color: primaryColor,
-//                                 fontWeight: FontWeight.w500,
-//                                 fontSize: 14,
-//                               ),
-//                             ),
-//                           ],
-//                         ),
-//                       );
-//                     },
-//                   );
-//                 }).toList(),
-//               ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:view_line/core/constants/app_colors.dart';
-import 'package:view_line/features/about_us/cubit/about_cubit.dart';
+import 'package:view_line/core/localization/localized_helper.dart';
+import 'package:view_line/features/about_us/controller/cubit/about_cubit.dart';
+import 'package:view_line/features/about_us/models/about_us_model.dart';
+import 'package:view_line/features/about_us/presentation/widgets/branches_section.dart';
 import 'package:view_line/features/about_us/presentation/widgets/employee_slider.dart';
 import 'package:view_line/features/about_us/presentation/widgets/partner_slider.dart';
 import 'package:view_line/features/about_us/presentation/widgets/section_header.dart';
@@ -416,27 +53,18 @@ class AboutUsScreen extends StatelessWidget {
                 slivers: [
                   // App Bar
                   SliverAppBar(
-                    expandedHeight: 100,
                     pinned: true,
-                    backgroundColor: AppColors.primary,
+                    backgroundColor: Colors.white,
                     flexibleSpace: FlexibleSpaceBar(
-                      title: const Text(
-                        'About Us',
+                      title: Text(
+                        context.isArabic ? 'من نحن' : 'About Us',
                         style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                       centerTitle: true,
-                      background: Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [AppColors.primary, AppColors.secondary],
-                          ),
-                        ),
-                      ),
+                      background: Container(color: Colors.white),
                     ),
                   ),
 
@@ -449,42 +77,46 @@ class AboutUsScreen extends StatelessWidget {
                           const SizedBox(height: 24),
 
                           // Logo and App Info
-                          _buildHeaderSection(data),
+                          Center(child: _buildHeaderSection(data, context)),
 
                           const SizedBox(height: 32),
 
                           // Description Section
-                          _buildDescriptionSection(data),
+                          _buildDescriptionSection(data, context),
 
                           const SizedBox(height: 32),
 
                           // Vision Section
-                          _buildVisionSection(data),
+                          _buildVisionSection(data, context),
 
                           const SizedBox(height: 32),
 
                           // Message Section
-                          _buildMessageSection(data),
+                          _buildMessageSection(data, context),
 
                           const SizedBox(height: 32),
 
                           // Values Section
-                          _buildValuesSection(data),
+                          _buildValuesSection(data, context),
 
                           const SizedBox(height: 32),
 
                           // Partners Section
-                          _buildPartnersSection(data),
+                          _buildPartnersSection(data, context),
+                          const SizedBox(height: 32),
+
+                          // OUR BRANCHES SECTION - ADD THIS
+                          const BranchesSection(),
 
                           const SizedBox(height: 32),
 
                           // Employees Section
-                          _buildEmployeesSection(data),
+                          _buildEmployeesSection(data, context),
 
                           const SizedBox(height: 32),
 
                           // Contact Section
-                          _buildContactSection(),
+                          _buildContactSection(context),
 
                           const SizedBox(height: 32),
                         ],
@@ -502,43 +134,22 @@ class AboutUsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHeaderSection(data) {
+  Widget _buildHeaderSection(data, BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(24),
+      width: double.infinity,
       color: Colors.white,
       child: Column(
         children: [
+          Image.asset("assets/images/logo.jpeg"),
           // Logo
-          Container(
-            width: 120,
-            height: 120,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [AppColors.primary, AppColors.secondary],
-              ),
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.primary.withOpacity(0.3),
-                  blurRadius: 20,
-                  offset: const Offset(0, 10),
-                ),
-              ],
-            ),
-            child: const Icon(
-              Icons.flight_takeoff,
-              size: 60,
-              color: Colors.white,
-            ),
-          ),
-
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
 
           // App Name
           Text(
-            data.appName,
+            context.isArabic ? data.appNameAr : data.appNameEn,
             style: const TextStyle(
-              fontSize: 32,
+              fontSize: 18,
               fontWeight: FontWeight.bold,
               color: AppColors.textPrimary,
             ),
@@ -549,9 +160,9 @@ class AboutUsScreen extends StatelessWidget {
 
           // Subtitle
           Text(
-            data.subtitle,
+            context.isArabic ? data.subtitleAr : data.subtitleEn,
             style: const TextStyle(
-              fontSize: 16,
+              fontSize: 14,
               color: AppColors.textSecondary,
               height: 1.5,
             ),
@@ -562,21 +173,24 @@ class AboutUsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildDescriptionSection(data) {
+  Widget _buildDescriptionSection(data, BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20),
       color: Colors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SectionHeader(title: 'Who We Are', icon: Icons.info_outline),
+          SectionHeader(
+            title: context.isArabic ? "من نحن" : 'Who We Are',
+            icon: Icons.info_outline,
+          ),
           const SizedBox(height: 16),
           Text(
-            data.description,
+            context.isArabic ? data.descriptionAr : data.descriptionEn,
             style: const TextStyle(
-              fontSize: 15,
+              fontSize: 12,
               color: AppColors.textSecondary,
-              height: 1.7,
+              height: 2,
             ),
           ),
         ],
@@ -584,7 +198,7 @@ class AboutUsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildVisionSection(data) {
+  Widget _buildVisionSection(data, BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.all(20),
@@ -616,10 +230,10 @@ class AboutUsScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 12),
-              const Text(
-                'Our Vision',
+              Text(
+                context.isArabic ? "رؤيتنا" : 'Our Vision',
                 style: TextStyle(
-                  fontSize: 22,
+                  fontSize: 14,
                   fontWeight: FontWeight.bold,
                   color: AppColors.textPrimary,
                 ),
@@ -628,11 +242,12 @@ class AboutUsScreen extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            data.vision,
+            context.isArabic ? data.visionAr : data.visionEn,
+
             style: const TextStyle(
-              fontSize: 15,
+              fontSize: 12,
               color: AppColors.textSecondary,
-              height: 1.7,
+              height: 2,
               fontStyle: FontStyle.italic,
             ),
           ),
@@ -641,7 +256,7 @@ class AboutUsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMessageSection(data) {
+  Widget _buildMessageSection(data, BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.all(20),
@@ -669,10 +284,10 @@ class AboutUsScreen extends StatelessWidget {
                 child: const Icon(Icons.message, color: Colors.white, size: 24),
               ),
               const SizedBox(width: 12),
-              const Text(
-                'Our Message',
+              Text(
+                context.isArabic ? "رسالتنا" : 'Our Message',
                 style: TextStyle(
-                  fontSize: 22,
+                  fontSize: 14,
                   fontWeight: FontWeight.bold,
                   color: AppColors.textPrimary,
                 ),
@@ -681,11 +296,12 @@ class AboutUsScreen extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            data.message,
+            context.isArabic ? data.messageAr : data.messageEn,
+
             style: const TextStyle(
-              fontSize: 15,
+              fontSize: 12,
               color: AppColors.textSecondary,
-              height: 1.7,
+              height: 2,
             ),
           ),
         ],
@@ -693,53 +309,65 @@ class AboutUsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildValuesSection(data) {
+  Widget _buildValuesSection(data, BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20),
       color: Colors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SectionHeader(
-            title: 'Our Values',
+          SectionHeader(
+            title: context.isArabic ? "قيمنا" : 'Our Values',
             icon: Icons.favorite_outline,
           ),
           const SizedBox(height: 16),
-          ...data.values.asMap().entries.map((entry) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: ValueCard(value: entry.value, index: entry.key),
-            );
-          }).toList(),
+          ...context.isArabic
+              ? data.valuesAr.asMap().entries.map((entry) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: ValueCard(value: entry.value, index: entry.key),
+                  );
+                }).toList()
+              : data.valuesEn.asMap().entries.map((entry) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: ValueCard(value: entry.valuesEn, index: entry.keyEn),
+                  );
+                }).toList(),
         ],
       ),
     );
   }
 
-  Widget _buildPartnersSection(data) {
+  Widget _buildPartnersSection(data, BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
+        Padding(
           padding: EdgeInsets.symmetric(horizontal: 20),
           child: SectionHeader(
-            title: 'Our Partners',
+            title: context.isArabic ? "شركاء النجاح" : 'Our Partners',
             icon: Icons.handshake_outlined,
           ),
         ),
         const SizedBox(height: 16),
-        PartnerSlider(partners: data.partners),
+        PartnerSlider(
+          partners: data.partners, // Pass the original PartnerModel list
+        ),
       ],
     );
   }
 
-  Widget _buildEmployeesSection(data) {
+  Widget _buildEmployeesSection(data, BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
+        Padding(
           padding: EdgeInsets.symmetric(horizontal: 20),
-          child: SectionHeader(title: 'Our Team', icon: Icons.people_outline),
+          child: SectionHeader(
+            title: context.isArabic ? "فريقنا" : 'Our Team',
+            icon: Icons.people_outline,
+          ),
         ),
         const SizedBox(height: 16),
         EmployeeSlider(employees: data.employees),
@@ -747,7 +375,7 @@ class AboutUsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildContactSection() {
+  Widget _buildContactSection(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       padding: const EdgeInsets.all(24),
@@ -768,18 +396,20 @@ class AboutUsScreen extends StatelessWidget {
         children: [
           const Icon(Icons.contact_support, size: 48, color: Colors.white),
           const SizedBox(height: 16),
-          const Text(
-            'Get In Touch',
+          Text(
+            context.isArabic ? "تواصل معنا" : 'Get In Touch',
             style: TextStyle(
-              fontSize: 24,
+              fontSize: 14,
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Have questions? We\'d love to hear from you!',
-            style: TextStyle(fontSize: 14, color: Colors.white, height: 1.5),
+          Text(
+            context.isArabic
+                ? "هل لديك أسئلة؟ يسعدنا أن نسمع منك!"
+                : 'Have questions? We\'d love to hear from you!',
+            style: TextStyle(fontSize: 12, color: Colors.white, height: 1.5),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 20),
@@ -788,17 +418,17 @@ class AboutUsScreen extends StatelessWidget {
             children: [
               _buildContactButton(
                 icon: Icons.email,
-                label: 'Email',
+                label: context.isArabic ? "بريد إلكتروني" : 'Email',
                 onTap: () {},
               ),
               _buildContactButton(
                 icon: Icons.phone,
-                label: 'Call',
+                label: context.isArabic ? "إتصال" : 'Call',
                 onTap: () {},
               ),
               _buildContactButton(
                 icon: Icons.chat,
-                label: 'Chat',
+                label: context.isArabic ? 'محادثة' : 'Chat',
                 onTap: () {},
               ),
             ],
@@ -830,7 +460,7 @@ class AboutUsScreen extends StatelessWidget {
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 12,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w400,
               ),
             ),
           ],

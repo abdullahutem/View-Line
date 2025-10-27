@@ -1,10 +1,11 @@
 class AppStrings {
-  static const String appName = 'View Line';
+  static const String appNameAr = 'ڨيو لاين';
+  static const String appNameEn = 'View Line';
   static const String home = 'Home';
   static const String services = 'Our Services';
   static const String aboutUs = 'About Us';
-  static const String searchHint = 'Search destinations, services...';
-
+  static const String searchHintAr = 'ابحث عن الوجهات، الخدمات...';
+  static const String searchHintEn = 'Search destinations, services...';
   // Onboarding
   static const String skip = 'Skip';
   static const String next = 'Next';
