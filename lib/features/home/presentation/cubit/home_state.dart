@@ -11,12 +11,9 @@ class HomeInitial extends HomeState {}
 class HomeLoading extends HomeState {}
 
 class HomeLoaded extends HomeState {
-  final List<Advertisement> advertisements;
+  final HomeSectionsResponseEntities response;
 
-  const HomeLoaded({required this.advertisements});
-
-  @override
-  List<Object> get props => [advertisements];
+  const HomeLoaded({required this.response});
 }
 
 class HomeError extends HomeState {

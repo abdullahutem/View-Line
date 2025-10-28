@@ -6,7 +6,6 @@ import 'package:view_line/features/about_us/presentation/screens/about_us_screen
 import 'package:view_line/features/home/presentation/screens/home_screen.dart';
 import 'package:view_line/features/main_page/cubit/navigation_cubit.dart';
 import 'package:view_line/features/portfolio/presentation/screens/portfolio_screen.dart';
-import 'package:view_line/features/services/presentation/screens/services_screen.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({super.key});
@@ -22,7 +21,7 @@ class MainPage extends StatelessWidget {
               index: state.currentIndex,
               children: [
                 HomeScreen(),
-                ServicesScreen(),
+                // ServicesScreen(),
                 PortfolioScreen(), // Add Portfolio Screen
                 AboutUsScreen(),
               ],

@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:view_line/core/localization/localized_helper.dart';
+import 'package:view_line/core/constants/app_colors.dart';
+import 'package:view_line/features/home/domain/entities/sub_enities/feature_entities.dart';
 import 'package:view_line/features/home/presentation/widgets/animated_counter.dart';
-import 'package:view_line/features/home/models/achievement.dart';
 
 class AchievementCard extends StatefulWidget {
-  final Achievement achievement;
+  final StatEntities stat;
   final int index;
+  final bool isArabic;
 
   const AchievementCard({
-    super.key,
-    required this.achievement,
+    Key? key,
+    required this.stat,
     required this.index,
-  });
+    required this.isArabic,
+  }) : super(key: key);
 
   @override
   State<AchievementCard> createState() => _AchievementCardState();
@@ -22,6 +24,33 @@ class _AchievementCardState extends State<AchievementCard>
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
   late Animation<double> _fadeAnimation;
+
+  // Map icon names to IconData
+  IconData _getIconData(String? iconName) {
+    switch (iconName) {
+      case 'UsersIcon':
+        return Icons.people;
+      case 'GlobeIcon':
+        return Icons.public;
+      case 'StarIcon':
+        return Icons.star;
+      case 'TrophyIcon':
+        return Icons.emoji_events;
+      default:
+        return Icons.analytics;
+    }
+  }
+
+  // Get color based on index
+  Color _getColor() {
+    final colors = [
+      AppColors.primary,
+      AppColors.secondary,
+      const Color(0xFF00BCD4), // Cyan
+      const Color(0xFF4CAF50), // Green
+    ];
+    return colors[widget.index % colors.length];
+  }
 
   @override
   void initState() {
@@ -42,7 +71,7 @@ class _AchievementCardState extends State<AchievementCard>
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
 
     // Stagger animation based on index
-    Future.delayed(Duration(milliseconds: widget.index * 150), () {
+    Future.delayed(Duration(milliseconds: widget.index * 50), () {
       if (mounted) {
         _controller.forward();
       }
@@ -57,6 +86,9 @@ class _AchievementCardState extends State<AchievementCard>
 
   @override
   Widget build(BuildContext context) {
+    final color = _getColor();
+    final label = widget.isArabic ? widget.stat.labelAr : widget.stat.labelEn;
+
     return FadeTransition(
       opacity: _fadeAnimation,
       child: ScaleTransition(
@@ -66,13 +98,10 @@ class _AchievementCardState extends State<AchievementCard>
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-              color: widget.achievement.color.withOpacity(0.2),
-              width: 2,
-            ),
+            border: Border.all(color: color.withOpacity(0.2), width: 2),
             boxShadow: [
               BoxShadow(
-                color: widget.achievement.color.withOpacity(0.1),
+                color: color.withOpacity(0.1),
                 blurRadius: 10,
                 offset: const Offset(0, 4),
               ),
@@ -88,22 +117,19 @@ class _AchievementCardState extends State<AchievementCard>
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
-                    colors: [
-                      widget.achievement.color,
-                      widget.achievement.color.withOpacity(0.7),
-                    ],
+                    colors: [color, color.withOpacity(0.7)],
                   ),
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: widget.achievement.color.withOpacity(0.3),
+                      color: color.withOpacity(0.3),
                       blurRadius: 8,
                       offset: const Offset(0, 4),
                     ),
                   ],
                 ),
                 child: Icon(
-                  widget.achievement.icon,
+                  _getIconData(widget.stat.icon),
                   size: 32,
                   color: Colors.white,
                 ),
@@ -113,22 +139,21 @@ class _AchievementCardState extends State<AchievementCard>
 
               // Animated Counter
               AnimatedCounter(
-                end: widget.achievement.number,
-                suffix: widget.achievement.suffix,
+                end: int.tryParse(widget.stat.number ?? '0') ?? 0,
+                suffix: widget.stat.suffix ?? '',
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: widget.achievement.color,
+                  color: color,
                 ),
+                duration: Duration(seconds: 5),
               ),
 
               const SizedBox(height: 8),
 
               // Label
               Text(
-                context.isArabic
-                    ? widget.achievement.labelAr
-                    : widget.achievement.labelEn,
+                label ?? '',
                 style: TextStyle(
                   fontSize: 13,
                   color: Colors.grey[600],

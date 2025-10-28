@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:view_line/core/constants/app_colors.dart';
 import 'package:view_line/core/localization/localized_helper.dart';
-import 'package:view_line/features/home/models/advertisement.dart';
+import 'package:view_line/features/home/domain/entities/sub_enities/Slide_entities.dart';
 
 class AdCarousel extends StatefulWidget {
-  final List<Advertisement> advertisements;
+  final List<SlideEntities> advertisements;
 
   const AdCarousel({super.key, required this.advertisements});
 
@@ -23,7 +23,7 @@ class _AdCarouselState extends State<AdCarousel> {
         CarouselSlider.builder(
           itemCount: widget.advertisements.length,
           itemBuilder: (context, index, realIndex) {
-            final ad = widget.advertisements[index];
+            final advertisement = widget.advertisements[index];
             return Container(
               margin: const EdgeInsets.symmetric(horizontal: 8),
               decoration: BoxDecoration(
@@ -42,7 +42,7 @@ class _AdCarouselState extends State<AdCarousel> {
                   fit: StackFit.expand,
                   children: [
                     Image.network(
-                      ad.imageUrl,
+                      advertisement.image!,
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
                         return Container(
@@ -75,7 +75,9 @@ class _AdCarouselState extends State<AdCarousel> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            context.isArabic ? ad.titleAr : ad.titleEn,
+                            context.isArabic
+                                ? advertisement.titleAr!
+                                : advertisement.titleEn!,
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 24,
@@ -85,8 +87,8 @@ class _AdCarouselState extends State<AdCarousel> {
                           const SizedBox(height: 8),
                           Text(
                             context.isArabic
-                                ? ad.descriptionAr
-                                : ad.descriptionEn,
+                                ? advertisement.descriptionAr!
+                                : advertisement.descriptionEn!,
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 14,

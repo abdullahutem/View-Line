@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:view_line/core/constants/app_colors.dart';
-import 'package:view_line/core/data/mock_data.dart';
-import 'package:view_line/core/localization/localized_helper.dart';
+import 'package:view_line/features/home/domain/entities/sub_enities/home_section_entities.dart';
 import 'package:view_line/features/home/presentation/widgets/achievement_card.dart';
 
 class AchievementsSection extends StatefulWidget {
-  const AchievementsSection({super.key});
+  final HomeSectionEntities section;
+
+  const AchievementsSection({Key? key, required this.section})
+    : super(key: key);
 
   @override
   State<AchievementsSection> createState() => _AchievementsSectionState();
@@ -21,7 +23,7 @@ class _AchievementsSectionState extends State<AchievementsSection>
   void initState() {
     super.initState();
     _headerController = AnimationController(
-      duration: const Duration(milliseconds: 800),
+      duration: const Duration(milliseconds: 1800),
       vsync: this,
     );
 
@@ -49,14 +51,23 @@ class _AchievementsSectionState extends State<AchievementsSection>
 
   @override
   Widget build(BuildContext context) {
-    final achievements = MockData.getAchievements();
+    final stats = widget.section.additionalData!.stats ?? [];
+    final isArabic = Localizations.localeOf(context).languageCode == 'ar';
     final screenWidth = MediaQuery.of(context).size.width;
+
+    final title = isArabic ? widget.section.titleAr : widget.section.titleEn;
+    final subtitle = isArabic
+        ? widget.section.subtitleAr
+        : widget.section.subtitleEn;
+    final description = isArabic
+        ? widget.section.descriptionAr
+        : widget.section.descriptionEn;
 
     // Determine if we should use horizontal scroll or grid
     final useHorizontalScroll = screenWidth < 600;
 
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 32),
+      padding: const EdgeInsets.symmetric(vertical: 48),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
@@ -94,37 +105,48 @@ class _AchievementsSectionState extends State<AchievementsSection>
                           ),
                         ),
                         const SizedBox(width: 12),
-                        Text(
-                          context.isArabic
-                              ? 'الإنجازات بالأرقام'
-                              : 'Achievements in Numbers',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.textPrimary,
+                        Flexible(
+                          child: Text(
+                            title ?? '',
+                            style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.textPrimary,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      context.isArabic
-                          ? 'نجاحنا يعكس ثقة مسافرينا ورضاهم'
-                          : 'Our success reflects our travelers\' trust and satisfaction',
+                      subtitle ?? '',
                       style: TextStyle(
-                        fontSize: 14,
-                        color: AppColors.textSecondary,
-                        height: 1.5,
+                        fontSize: 16,
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.w600,
                       ),
                       textAlign: TextAlign.center,
                     ),
+                    if (description != null && description.isNotEmpty) ...[
+                      const SizedBox(height: 8),
+                      Text(
+                        description,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: AppColors.textSecondary,
+                          height: 1.5,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
                   ],
                 ),
               ),
             ),
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: 32),
 
           // Achievements Display
           if (useHorizontalScroll)
@@ -134,14 +156,19 @@ class _AchievementsSectionState extends State<AchievementsSection>
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                itemCount: achievements.length,
+                itemCount: stats.length,
                 itemBuilder: (context, index) {
+                  final stat = stats[index];
                   return Container(
                     width: 160,
-                    margin: const EdgeInsets.only(right: 16),
+                    margin: EdgeInsets.only(
+                      right: isArabic ? 0 : 16,
+                      left: isArabic ? 16 : 0,
+                    ),
                     child: AchievementCard(
-                      achievement: achievements[index],
+                      stat: stat,
                       index: index,
+                      isArabic: isArabic,
                     ),
                   );
                 },
@@ -155,23 +182,25 @@ class _AchievementsSectionState extends State<AchievementsSection>
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: screenWidth > 900 ? 3 : 2,
+                  crossAxisCount: screenWidth > 900 ? 4 : 2,
                   crossAxisSpacing: 16,
                   mainAxisSpacing: 16,
                   childAspectRatio: 1.1,
                 ),
-                itemCount: achievements.length,
+                itemCount: stats.length,
                 itemBuilder: (context, index) {
+                  final stat = stats[index];
                   return AchievementCard(
-                    achievement: achievements[index],
+                    stat: stat,
                     index: index,
+                    isArabic: isArabic,
                   );
                 },
               ),
             ),
 
           // Decorative divider
-          const SizedBox(height: 24),
+          const SizedBox(height: 32),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(
