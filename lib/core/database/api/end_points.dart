@@ -1,22 +1,18 @@
 class EndPoints {
-  static const String baseUrl = "https://www.vwline.com/api/v1/";
+  // static const String baseUrl = "https://vwline.com/api/v1/";
+  static const String baseUrl = "https://vwline.com/api/v1/";
+  static const String login = "auth/login";
   static const String getAllLandingPageSections = "landing/sections/";
-  static const String areas = "areas/";
-  static const String districts = "districts/";
-  static const String governorates = "governorates/";
-  static const String medicalFacilities = "medical-facilities/";
-  static const String medicalFacilityCategories =
-      "medical-facility-categories/";
-  static const String medicalServices = "medical-services/";
-  static const String facilityOwnerships = "facility-ownerships/";
-  static const String specialties = "specialties/";
-  static const String workingPeriods = "working-periods/";
-  static const String top_per_category = "top-per-category/";
-  static const String contentBlocks = "content-blocks/";
+  static const String services = "services/";
+  static const String portfolio = "portfolio/";
+  static const String partners = "partners/";
+  static const String teamMembers = "team-members/";
+  static const String transactions = "transactions/passport/";
 }
 
 class ApiKey {
   static String id = "id";
+  static String token = "token";
   static String title = "title";
   static String slug = "slug";
   static String description = "description";

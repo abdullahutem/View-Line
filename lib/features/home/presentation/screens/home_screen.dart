@@ -6,6 +6,7 @@ import 'package:view_line/core/constants/app_strings.dart';
 import 'package:view_line/core/localization/cubit/language_cubit.dart';
 import 'package:view_line/core/localization/cubit/language_state.dart';
 import 'package:view_line/core/localization/localized_helper.dart';
+import 'package:view_line/features/auth/presentation/screens/login_screen.dart';
 import 'package:view_line/features/home/data/models/sub_models/home_section.dart';
 import 'package:view_line/features/home/domain/entities/sub_enities/home_section_entities.dart';
 import 'package:view_line/features/home/presentation/cubit/home_cubit.dart';
@@ -18,6 +19,8 @@ import 'package:view_line/features/home/presentation/widgets/mobile_app_section.
 import 'package:view_line/features/home/presentation/widgets/qualifications_section.dart';
 import 'package:view_line/features/home/presentation/widgets/testimonials_section.dart';
 import 'package:view_line/features/home/presentation/widgets/top_destinations_section.dart';
+import 'package:view_line/features/services/presentation/cubit/services_cubit.dart';
+import 'package:view_line/features/services/presentation/widgets/service_card.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -45,6 +48,15 @@ class HomeScreen extends StatelessWidget {
                 );
               },
             ),
+          ),
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => LoginScreen()),
+              );
+            },
+            icon: Icon(Icons.abc_outlined),
           ),
         ],
         title: Row(
@@ -85,24 +97,6 @@ class HomeScreen extends StatelessWidget {
                 isActive: false,
               ),
             );
-
-            // void debugPrintFields() {
-
-            //   print('phone: $phone');
-            //   print('addressAr: $addressAr');
-            //   print('addressEn: $addressEn');
-            //   print('workingHoursAr: $workingHoursAr');
-            //   print('workingHoursEn: $workingHoursEn');
-            //   print('socialMedia: $socialMedia');
-            //   print('logo: $logo');
-            //   print('features: ${features?.length}');
-            //   print('items: ${items?.length}');
-            //   print('projects: ${projects?.length}');
-            //   print('testimonials: ${testimonials?.length}');
-            //   print('stats: ${stats?.length}');
-            //   print('members: ${members?.length}');
-            //   print('====================================');
-            // }
 
             final featuresSection = sections.firstWhere(
               (s) => s.sectionKey == 'features',
@@ -189,12 +183,6 @@ class HomeScreen extends StatelessWidget {
                             ? AppStrings.searchHintAr
                             : AppStrings.searchHintEn,
                         prefixIcon: const Icon(Icons.search),
-                        suffixIcon: IconButton(
-                          icon: const Icon(Icons.tune),
-                          onPressed: () {
-                            // Add filter functionality
-                          },
-                        ),
                       ),
                       onChanged: (value) {
                         // Add search functionality
@@ -235,37 +223,56 @@ class HomeScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
 
-                  // // Main Services Grid
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  //   child: GridView.builder(
-                  //     shrinkWrap: true,
-                  //     physics: const NeverScrollableScrollPhysics(),
-                  //     gridDelegate:
-                  //         const SliverGridDelegateWithFixedCrossAxisCount(
-                  //           crossAxisCount: 2,
-                  //           crossAxisSpacing: 12,
-                  //           mainAxisSpacing: 12,
-                  //           childAspectRatio: 0.69,
-                  //         ),
-                  //     itemCount: mainServices.length,
-                  //     itemBuilder: (context, index) {
-                  //       final service = mainServices[index];
-                  //       return MainServiceCard(
-                  //         service: service,
-                  //         onTap: () {
-                  //           Navigator.push(
-                  //             context,
-                  //             MaterialPageRoute(
-                  //               builder: (_) =>
-                  //                   MainServiceDetailsScreen(service: service),
-                  //             ),
-                  //           );
-                  //         },
-                  //       );
-                  //     },
-                  //   ),
-                  // ),
+                  // Main Services Grid
+                  BlocBuilder<ServicesCubit, ServicesState>(
+                    builder: (context, state) {
+                      if (state is ServicesLoading) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (state is ServicesError) {
+                        return Center(child: Text(state.message));
+                      } else if (state is ServicesLoaded) {
+                        final services = state.services;
+                        if (services.isEmpty) {
+                          return Center(
+                            child: Text(
+                              context.isArabic
+                                  ? 'لا توجد خدمات متاحة حالياً'
+                                  : 'No services available currently',
+                            ),
+                          );
+                        }
+                        return SizedBox(
+                          height: 300,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0,
+                            ),
+                            child: GridView.builder(
+                              scrollDirection: Axis.horizontal,
+                              shrinkWrap: true,
+                              physics: const ScrollPhysics(),
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 1,
+                                    crossAxisSpacing: 12,
+                                    mainAxisSpacing: 12,
+                                    childAspectRatio: 1.2,
+                                  ),
+                              itemCount: services.length,
+                              itemBuilder: (context, index) {
+                                final service = services[index];
+                                return ServiceCard(
+                                  service: service,
+                                  onTap: () {},
+                                );
+                              },
+                            ),
+                          ),
+                        );
+                      }
+                      return const SizedBox.shrink();
+                    },
+                  ),
                   const SizedBox(height: 32),
                   FeaturesSection(section: featuresSection),
 

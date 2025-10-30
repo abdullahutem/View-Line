@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:view_line/core/constants/app_colors.dart';
 import 'package:view_line/core/localization/localized_helper.dart';
-import 'package:view_line/features/portfolio/cubit/portfolio_cubit.dart';
-import 'package:view_line/features/portfolio/presentation/screens/portfolio_details_screen.dart';
+import 'package:view_line/features/portfolio/presentation/cubit/portfolio_cubit.dart';
 import 'package:view_line/features/portfolio/presentation/widgets/portfolio_card.dart';
 
 class PortfolioScreen extends StatelessWidget {
@@ -12,7 +11,7 @@ class PortfolioScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => PortfolioCubit()..loadPortfolio(),
+      create: (_) => PortfolioCubit()..getProtfolio(),
       child: Scaffold(
         appBar: AppBar(
           title: Row(
@@ -59,7 +58,7 @@ class PortfolioScreen extends StatelessWidget {
                     const SizedBox(height: 16),
                     ElevatedButton.icon(
                       onPressed: () {
-                        context.read<PortfolioCubit>().loadPortfolio();
+                        context.read<PortfolioCubit>().getProtfolio();
                       },
                       icon: const Icon(Icons.refresh),
                       label: const Text('Try Again'),
@@ -70,7 +69,7 @@ class PortfolioScreen extends StatelessWidget {
             }
 
             if (state is PortfolioLoaded) {
-              if (state.items.isEmpty) {
+              if (state.portfolio.isEmpty) {
                 return Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -133,37 +132,6 @@ class PortfolioScreen extends StatelessWidget {
                               height: 1.5,
                             ),
                           ),
-                          const SizedBox(height: 16),
-                          // Stats Row
-                          Row(
-                            children: [
-                              _buildStatCard(
-                                icon: Icons.flight_takeoff,
-                                value: '${state.items.length}',
-                                label: context.isArabic ? 'رحلات' : 'Trips',
-                                color: AppColors.primary,
-                              ),
-                              const SizedBox(width: 12),
-                              _buildStatCard(
-                                icon: Icons.people,
-                                value:
-                                    '${state.items.fold<int>(0, (sum, item) => sum + item.participantsCount)}',
-                                label: context.isArabic
-                                    ? 'مسافرين سعداء'
-                                    : 'Happy Travelers',
-                                color: AppColors.secondary,
-                              ),
-                              const SizedBox(width: 12),
-                              _buildStatCard(
-                                icon: Icons.star,
-                                value: '4.9',
-                                label: context.isArabic
-                                    ? 'متوسط التقييم'
-                                    : 'Avg Rating',
-                                color: AppColors.success,
-                              ),
-                            ],
-                          ),
                         ],
                       ),
                     ),
@@ -180,23 +148,23 @@ class PortfolioScreen extends StatelessWidget {
                             crossAxisCount: 2,
                             crossAxisSpacing: 12,
                             mainAxisSpacing: 12,
-                            childAspectRatio: 0.59,
+                            childAspectRatio: 0.50,
                           ),
                       delegate: SliverChildBuilderDelegate((context, index) {
-                        final item = state.items[index];
+                        final item = state.portfolio[index];
                         return PortfolioCard(
                           item: item,
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) =>
-                                    PortfolioDetailsScreen(item: item),
-                              ),
-                            );
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (_) =>
+                            //         PortfolioDetailsScreen(item: item),
+                            //   ),
+                            // );
                           },
                         );
-                      }, childCount: state.items.length),
+                      }, childCount: state.portfolio.length),
                     ),
                   ),
 
@@ -207,44 +175,6 @@ class PortfolioScreen extends StatelessWidget {
 
             return const SizedBox.shrink();
           },
-        ),
-      ),
-    );
-  }
-
-  Widget _buildStatCard({
-    required IconData icon,
-    required String value,
-    required String label,
-    required Color color,
-  }) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: color.withOpacity(0.3)),
-        ),
-        child: Column(
-          children: [
-            Icon(icon, color: color, size: 28),
-            const SizedBox(height: 8),
-            Text(
-              value,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: color,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              label,
-              style: TextStyle(fontSize: 11, color: color),
-              textAlign: TextAlign.center,
-            ),
-          ],
         ),
       ),
     );
