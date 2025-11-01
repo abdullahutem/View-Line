@@ -1,7 +1,9 @@
 class EndPoints {
   // static const String baseUrl = "https://vwline.com/api/v1/";
+  // baseUrl: "https://vwline.com/api/v1",
   static const String baseUrl = "https://vwline.com/api/v1/";
   static const String login = "auth/login";
+  static const String logout = "auth/logout";
   static const String getAllLandingPageSections = "landing/sections/";
   static const String services = "services/";
   static const String portfolio = "portfolio/";

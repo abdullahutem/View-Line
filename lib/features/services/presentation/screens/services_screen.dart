@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:view_line/core/localization/localized_helper.dart';
 import 'package:view_line/features/services/presentation/cubit/services_cubit.dart';
+import 'package:view_line/features/services/presentation/screens/service_details_screen.dart';
 import 'package:view_line/features/services/presentation/widgets/service_card.dart';
 
 class ServicesScreen extends StatelessWidget {
@@ -53,7 +54,13 @@ class ServicesScreen extends StatelessWidget {
                     return ServiceCard(
                       service: service,
                       onTap: () {
-                        // Navigate to service details screen here
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                ServiceDetailsScreen(service: service),
+                          ),
+                        );
                       },
                     );
                   },

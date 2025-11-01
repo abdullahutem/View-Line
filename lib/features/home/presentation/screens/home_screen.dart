@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:view_line/core/cache/cache_helper.dart';
 import 'package:view_line/core/constants/app_colors.dart';
 import 'package:view_line/core/constants/app_strings.dart';
+import 'package:view_line/core/database/api/end_points.dart';
 import 'package:view_line/core/localization/cubit/language_cubit.dart';
 import 'package:view_line/core/localization/cubit/language_state.dart';
 import 'package:view_line/core/localization/localized_helper.dart';
@@ -49,14 +51,21 @@ class HomeScreen extends StatelessWidget {
               },
             ),
           ),
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => LoginScreen()),
-              );
-            },
-            icon: Icon(Icons.abc_outlined),
+          Container(
+            margin: const EdgeInsets.only(left: 8),
+            decoration: BoxDecoration(
+              color: AppColors.primary,
+              shape: BoxShape.circle,
+            ),
+            child: IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginScreen()),
+                );
+              },
+              icon: Icon(Icons.person_2_outlined, color: Colors.white),
+            ),
           ),
         ],
         title: Row(
@@ -175,20 +184,21 @@ class HomeScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Search Bar
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: context.isArabic
-                            ? AppStrings.searchHintAr
-                            : AppStrings.searchHintEn,
-                        prefixIcon: const Icon(Icons.search),
-                      ),
-                      onChanged: (value) {
-                        // Add search functionality
-                      },
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.all(16.0),
+                  //   child: TextField(
+                  //     decoration: InputDecoration(
+                  //       hintText: context.isArabic
+                  //           ? AppStrings.searchHintAr
+                  //           : AppStrings.searchHintEn,
+                  //       prefixIcon: const Icon(Icons.search),
+                  //     ),
+                  //     onChanged: (value) {
+                  //       // Add search functionality
+                  //     },
+                  //   ),
+                  // ),
+                  SizedBox(height: 20),
 
                   // Advertisement Carousel
                   const SizedBox(height: 8),

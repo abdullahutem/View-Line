@@ -28,7 +28,7 @@ class MobileAppSection extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 18),
               Text(
                 isArabic
                     ? (section.subtitleAr ?? '')
@@ -67,10 +67,7 @@ class MobileAppSection extends StatelessWidget {
               _getImageUrl(section.additionalData!.mobileImage!),
               fit: BoxFit.contain,
               errorBuilder: (context, error, stackTrace) {
-                return Image.asset(
-                  'assets/images/logo.jpeg',
-                  fit: BoxFit.contain,
-                );
+                return Image.asset('assets/images/1.png', fit: BoxFit.contain);
               },
             ),
           ),
@@ -113,7 +110,7 @@ class MobileAppSection extends StatelessWidget {
                 fit: BoxFit.contain,
                 errorBuilder: (context, error, stackTrace) {
                   return Image.asset(
-                    'assets/images/logo.jpeg',
+                    'assets/images/1.png',
                     fit: BoxFit.contain,
                   );
                 },

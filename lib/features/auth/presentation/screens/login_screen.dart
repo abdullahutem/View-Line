@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:view_line/core/constants/app_colors.dart';
 import 'package:view_line/core/localization/localized_helper.dart';
 import 'package:view_line/features/auth/presentation/cubit/auth_cubit.dart';
-import 'package:view_line/features/main_page/presentation/screens/main_page.dart';
 import 'package:view_line/features/transactions/presentation/screens/transactions_screen.dart';
 
 class LoginScreen extends StatefulWidget {

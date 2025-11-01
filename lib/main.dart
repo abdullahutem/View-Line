@@ -8,6 +8,7 @@ import 'package:view_line/core/localization/cubit/language_cubit.dart';
 import 'package:view_line/core/localization/cubit/language_state.dart';
 import 'package:view_line/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:view_line/features/home/presentation/cubit/home_cubit.dart';
+import 'package:view_line/features/logout/cubit/logout_cubit.dart';
 import 'package:view_line/features/main_page/presentation/screens/main_page.dart';
 import 'package:view_line/features/onboarding/cubit/cubit/onboarding_cubit.dart';
 import 'package:view_line/features/onboarding/presentation/screens/onboarding_screen.dart';
@@ -31,6 +32,7 @@ void main() async {
         BlocProvider(create: (context) => ServicesCubit()..getServices()),
         BlocProvider(create: (context) => AuthCubit()),
         BlocProvider(create: (context) => TransactionsCubit()),
+        BlocProvider(create: (context) => LogoutCubit()),
       ],
       child: Phoenix(child: const MyApp()),
     ),
